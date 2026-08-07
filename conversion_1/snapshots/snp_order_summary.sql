@@ -1,0 +1,24 @@
+{% snapshot snp_order_summary %}
+
+{{
+    config(
+        target_schema='snapshots',
+        unique_key="concat(CustId, '|', OrderId)",
+        strategy='check',
+        check_cols=['Name', 'EmailId', 'Region', 'ItemName', 'PricePerUnit', 'Qty', '"Date"']
+    )
+}}
+
+select
+    CustId,
+    OrderId,
+    Name,
+    EmailId,
+    Region,
+    ItemName,
+    PricePerUnit,
+    Qty,
+    "Date"
+from {{ ref('int_order_summary_source') }}
+
+{% endsnapshot %}
