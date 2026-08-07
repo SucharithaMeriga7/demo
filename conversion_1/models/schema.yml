@@ -1,0 +1,23 @@
+version: 2
+models:
+  - name: stg_customer
+    description: Cleansed & deduplicated customer (view)
+    columns:
+      - name: CustId
+        tests: [not_null, unique]
+  - name: stg_order
+    description: Cleansed & deduplicated order (view)
+    columns:
+      - name: OrderId
+        tests: [not_null, unique]
+  - name: int_order_summary_source
+    description: Customer joined to order on CustId
+  - name: mart_order_summary
+    description: SCD2 order summary from snapshot with derived IsActive
+  - name: mart_customer_aggregate_spend
+    description: TotalAmount aggregated by Name and Date
+    columns:
+      - name: Name
+        tests: [not_null]
+      - name: '"Date"'
+        tests: [not_null]
