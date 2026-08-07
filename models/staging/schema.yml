@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: stg_customer
+    description: "Cleansed & deduplicated customer (view)"
+    columns:
+      - name: CustId
+        tests: [not_null, unique]
+      - name: Name
+        tests: [not_null]
+
+  - name: stg_order
+    description: "Cleansed & deduplicated order (view)"
+    columns:
+      - name: OrderId
+        tests: [not_null, unique]
+      - name: CustId
+        tests: [not_null]
+
+  - name: int_order_summary_source
+    description: "Customer joined to order on CustId (view)"
+
+  - name: mart_order_summary
+    description: "SCD2 output from snapshot with derived IsActive (table)"
+    columns:
+      - name: CustId
+        tests: [not_null]
+      - name: OrderId
+        tests: [not_null]
+
+  - name: mart_customer_aggregate_spend
+    description: "Aggregated TotalAmount by Name and Date (table)"
+    columns:
+      - name: Name
+        tests: [not_null]
+
+snapshots:
+  - name: snp_order_summary
+    description: "SCD Type 2 tracking of joined order summary via strategy='check'"
