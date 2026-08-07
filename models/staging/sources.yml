@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: sdlc_wizard
+    database: gen_ai_poc_snowflakecoe
+    schema: sdlc_wizard
+    tables:
+      - name: customer
+      - name: orders
+        identifier: '"order"'
